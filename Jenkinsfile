@@ -1,20 +1,28 @@
 pipeline {
-    agent {
-    node {
-        label 'Linux'
-        customWorkspace '/home/ec2-user'
+    agent any
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+
+        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+
+        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
-}
     stages {
-        stage ('Checkout') {
+        stage('Example') {
             steps {
-            sh 'https://github.com/Arpan223/game-of-life.git'
-            }
-        }
-    
-        stage ('Build') {
-            steps {
-            sh 'mvn clean install'
+                echo "Hello ${params.PERSON}"
+
+                echo "Biography: ${params.BIOGRAPHY}"
+
+                echo "Toggle: ${params.TOGGLE}"
+
+                echo "Choice: ${params.CHOICE}"
+
+                echo "Password: ${params.PASSWORD}"
             }
         }
     }
